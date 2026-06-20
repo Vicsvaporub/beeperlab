@@ -66,11 +66,16 @@ function drawVisualizer() {
 
 const step = Math.floor(bufferLength / 64); // fewer, nicer bars
 
-for (let i = 0; i < 64; i++) {
-    const value = dataArray[i * step];
+if (!dataArray || !bufferLength) return;
+
+const bars = 64;
+const step = Math.floor(bufferLength / bars);
+
+for (let i = 0; i < bars; i++) {
+    const value = dataArray[i * step] || 0;
     const height = (value / 255) * canvas.height;
 
-    const x = (i / 64) * canvas.width;
+    const x = (i / bars) * canvas.width;
 
     ctx.shadowBlur = 8;
     ctx.shadowColor = "#6de8ff";
@@ -79,7 +84,7 @@ for (let i = 0; i < 64; i++) {
     ctx.fillRect(
         x,
         canvas.height - height,
-        (canvas.width / 64) - 2,
+        (canvas.width / bars) - 2,
         height
     );
 }
