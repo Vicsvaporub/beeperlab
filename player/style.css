@@ -1,1 +1,70 @@
+@font-face {
+    font-family: "BeeperFont";
+    src: url("../fonts/Beeperfont.woff2") format("woff2");
+}
 
+body {
+    margin: 0;
+    padding: 2rem;
+
+    font-family: "BeeperFont", sans-serif;
+
+    background: #01242e;
+    color: #f2f2f2;
+
+    display: flex;
+    justify-content: center;
+}
+
+.player {
+    width: min(650px, 90vw);
+
+    padding: 1.5rem;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,.15);
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.3);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.subtitle {
+    margin-top: .3rem;
+    opacity: .7;
+}
+
+#playlist {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+#playlist li {
+    padding: .8rem 1rem;
+    margin-bottom: .6rem;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    background: rgba(255,255,255,.05);
+}
+
+#playlist li:hover {
+    background: rgba(255,255,255,.15);
+    transform: translateX(6px);
+}
+
+audio {
+    width: 100%;
+}
