@@ -2,6 +2,10 @@ const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const nowPlaying = document.querySelector("#nowPlaying h2");
+
+const canvas = document.getElementById("visualizer");
+const ctx = canvas.getContext("2d");
 
 let currentSong = 0;
 
@@ -35,6 +39,59 @@ const songs = [
 const playlist = document.getElementById("playlist");
 const audio = document.getElementById("audio");
 
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+const source = audioCtx.createMediaElementSource(audio);
+const analyser = audioCtx.createAnalyser();
+
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+
+analyser.fftSize = 128;
+
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+
+function drawVisualizer(){
+
+    requestAnimationFrame(drawVisualizer);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const barWidth = canvas.width / bufferLength;
+
+    for(let i=0;i<bufferLength;i++){
+
+        const value = dataArray[i];
+        const height = value / 255 * canvas.height;
+
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#6de8ff";
+        ctx.fillStyle = "#8cf7ff";
+
+        ctx.fillRect(
+            i * barWidth,
+            canvas.height - height,
+            barWidth - 2,
+            height
+        );
+    }
+}
+
+drawVisualizer();
+
+function unlockAudio(){
+    if(audioCtx.state === "suspended"){
+        audioCtx.resume();
+    }
+}
+
+        
 songs.forEach((song, index) => {
     const li = document.createElement("li");
 
@@ -44,6 +101,7 @@ songs.forEach((song, index) => {
     `;
 
 li.onclick = () => {
+    unlockAudio();
 
     currentSong = index;
 
@@ -60,6 +118,7 @@ li.onclick = () => {
 });
 
 playBtn.onclick = () => {
+    unlockAudio();
     audio.play();
 };
 
@@ -68,6 +127,7 @@ pauseBtn.onclick = () => {
 };
 
 nextBtn.onclick = () => {
+    unlockAudio();
 
     currentSong++;
 
@@ -84,6 +144,7 @@ nextBtn.onclick = () => {
 };
 
 prevBtn.onclick = () => {
+    unlockAudio();
 
     currentSong--;
 
