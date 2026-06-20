@@ -1,3 +1,10 @@
+const playBtn = document.getElementById("playBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let currentSong = 0;
+
 const songs = [
     {
         title: "The Burn Marks on My Epiano Won't Go Away",
@@ -28,7 +35,7 @@ const songs = [
 const playlist = document.getElementById("playlist");
 const audio = document.getElementById("audio");
 
-songs.forEach((song) => {
+songs.forEach((song, index) => {
     const li = document.createElement("li");
 
     li.innerHTML = `
@@ -36,24 +43,58 @@ songs.forEach((song) => {
         <small>${song.artist}</small>
     `;
 
-li.onclick = async () => {
-    audio.pause();
-const nowPlaying = document.querySelector("#nowPlaying h2");
+li.onclick = () => {
 
-audio.pause();
-audio.src = song.file;
-audio.load();
+    currentSong = index;
 
-nowPlaying.textContent = song.title;
+    audio.src = song.file;
+    audio.load();
 
-audio.play();
+    nowPlaying.textContent = song.title;
 
-    try {
-        await audio.play();
-    } catch (err) {
-        console.error(err);
-    }
+    audio.play();
+
 };
-
+    
     playlist.appendChild(li);
 });
+
+playBtn.onclick = () => {
+    audio.play();
+};
+
+pauseBtn.onclick = () => {
+    audio.pause();
+};
+
+nextBtn.onclick = () => {
+
+    currentSong++;
+
+    if(currentSong >= songs.length)
+        currentSong = 0;
+
+    audio.src = songs[currentSong].file;
+    audio.load();
+
+    nowPlaying.textContent = songs[currentSong].title;
+
+    audio.play();
+
+};
+
+prevBtn.onclick = () => {
+
+    currentSong--;
+
+    if(currentSong < 0)
+        currentSong = songs.length-1;
+
+    audio.src = songs[currentSong].file;
+    audio.load();
+
+    nowPlaying.textContent = songs[currentSong].title;
+
+    audio.play();
+
+};
