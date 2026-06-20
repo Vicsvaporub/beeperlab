@@ -67,14 +67,16 @@ function drawVisualizer() {
     if (!dataArray || !bufferLength) return;
 
 const bars = 64;
+const chunkSize = Math.floor(bufferLength / bars);
 
 for (let i = 0; i < bars; i++) {
-    // spread sampling across spectrum (instead of linear)
-    const index = Math.floor(
-        Math.pow(i / bars, 1.5) * bufferLength
-    );
+    let sum = 0;
 
-    const value = dataArray[index] || 0;
+    for (let j = 0; j < chunkSize; j++) {
+        sum += dataArray[i * chunkSize + j] || 0;
+    }
+
+    const value = sum / chunkSize;
     const height = (value / 255) * canvas.height;
 
     const x = (i / bars) * canvas.width;
