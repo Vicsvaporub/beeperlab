@@ -25,23 +25,20 @@ body{
 /* PLAYER WRAPPER */
 .player{
     width:640px;
-
     border-radius:16px;
+
+    position:relative;
+    overflow:hidden;
 
     background: rgba(255,255,255,.25);
 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
-    border: 1px solid rgba(255,255,255,.45);
-
     box-shadow:
         0 10px 30px rgba(0,0,0,.35),
         inset 0 1px rgba(255,255,255,.8),
         inset 0 -1px rgba(0,0,0,.15);
-
-    position:relative;
-    overflow:hidden;
 
     isolation:isolate;
 }
@@ -50,18 +47,16 @@ body{
 .player::before{
     content:"";
     position:absolute;
-    inset:0;
+    inset:-3px;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    background:
-        radial-gradient(
-            circle at top,
-            rgba(140,200,255,.45),
-            transparent 60%
-        );
-
-    pointer-events:none;
+    background: linear-gradient(
+        269deg,
+        rgba(156, 210, 255, 1) 0%,
+        rgba(41, 97, 171, 1) 55%,
+        rgba(156, 210, 255, 1) 100%
+    );
 
     z-index:0;
 }
@@ -69,19 +64,16 @@ body{
 .player::after{
     content:"";
     position:absolute;
+    inset:1px;
 
-    top:-40%;
-    left:-20%;
+    border-radius:15px;
 
-    width:140%;
-    height:80%;
+    background: rgba(255,255,255,.18);
 
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,.25),
-        transparent
-    );
+    pointer-events:none;
+
+    z-index:0;
+}
 
     transform: rotate(-8deg);
 
@@ -92,8 +84,8 @@ body{
 
 /* everything ABOVE glass */
 .titlebar,
-.display,
-.main{
+.main,
+.display{
     position:relative;
     z-index:1;
 }
