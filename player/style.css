@@ -326,3 +326,10 @@ background:
     font-size:18px;
     letter-spacing:.5px;
 }
+
+/* VISUALIZER */
+#visualizer{
+    width:100%;
+    height:70px;
+    display:block;
+}
