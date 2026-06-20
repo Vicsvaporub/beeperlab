@@ -50,13 +50,15 @@ body{
     inset:-4px;
 
     border-radius:18px;
+    
+background: linear-gradient(
+    269deg,
+    rgba(156, 210, 255, 1) 0%,
+    rgba(41, 97, 171, 1) 55%,
+    rgba(156, 210, 255, 1) 100%
+);
 
-    background: linear-gradient(
-        269deg,
-        rgba(156, 210, 255, 1) 0%,
-        rgba(41, 97, 171, 1) 55%,
-        rgba(156, 210, 255, 1) 100%
-    );
+pointer-events: none;
 
     z-index:0;
 
@@ -87,9 +89,10 @@ body{
 /* everything ABOVE glass */
 .titlebar,
 .main,
-.display{
-    position:relative;
-    z-index:1;
+.display,
+.playlist{
+    position: relative;
+    z-index: 1;
 }
 
 /* TITLEBAR */
@@ -257,11 +260,11 @@ audio{
     border-radius:12px;
     padding:10px;
 
-    background:
-        linear-gradient(
-            rgba(255,255,255,.7),
-            rgba(180,240,255,.45)
-        );
+background:
+    linear-gradient(
+        rgba(255,255,255,.7),
+        rgba(180,240,255,.45)
+    );
 
     border:1px solid rgba(255,255,255,.8);
 
