@@ -2,17 +2,86 @@ const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+
 const nowPlaying = document.querySelector("#nowPlaying h2");
+
+const playlist = document.getElementById("playlist");
+const audio = document.getElementById("audio");
 
 const canvas = document.getElementById("visualizer");
 
 let ctx = null;
+let visualizerReady = false;
 
-if(canvas){
+if (canvas) {
     ctx = canvas.getContext("2d");
+    visualizerReady = true;
 }
 
-let currentSong = 0;
+let audioCtx;
+let source;
+let analyser;
+let dataArray;
+let bufferLength;
+
+function initAudioGraph() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        source = audioCtx.createMediaElementSource(audio);
+        analyser = audioCtx.createAnalyser();
+
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+
+        analyser.fftSize = 128;
+
+        bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+    }
+}
+
+function unlockAudio() {
+    if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+    }
+}
+
+function drawVisualizer() {
+    if (!visualizerReady || !analyser) {
+        requestAnimationFrame(drawVisualizer);
+        return;
+    }
+
+    requestAnimationFrame(drawVisualizer);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barWidth = canvas.width / bufferLength;
+
+    for (let i = 0; i < bufferLength; i++) {
+        const value = dataArray[i];
+        const height = (value / 255) * canvas.height;
+
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#6de8ff";
+        ctx.fillStyle = "#8cf7ff";
+
+        ctx.fillRect(
+            i * barWidth,
+            canvas.height - height,
+            barWidth - 2,
+            height
+        );
+    }
+}
+
+drawVisualizer();
 
 const songs = [
     {
@@ -41,105 +110,8 @@ const songs = [
     { title: "Track 18", artist: "Ksu4000", file: "../music/Track18.mp3" }
 ];
 
-const playlist = document.getElementById("playlist");
-const audio = document.getElementById("audio");
+let currentSong = 0;
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-const source = audioCtx.createMediaElementSource(audio);
-const analyser = audioCtx.createAnalyser();
-
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-
-analyser.fftSize = 128;
-
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
-
-function drawVisualizer(){
-
-    requestAnimationFrame(drawVisualizer);
-
-    analyser.getByteFrequencyData(dataArray);
-
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const barWidth = canvas.width / bufferLength;
-
-    for(let i=0;i<bufferLength;i++){
-
-        const value = dataArray[i];
-        const height = value / 255 * canvas.height;
-
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = "#6de8ff";
-        ctx.fillStyle = "#8cf7ff";
-
-        ctx.fillRect(
-            i * barWidth,
-            canvas.height - height,
-            barWidth - 2,
-            height
-        );
-    }
-}
-
-const canvas = document.getElementById("visualizer");
-
-let ctx = null;
-let visualizerReady = false;
-
-if(canvas){
-    ctx = canvas.getContext("2d");
-    visualizerReady = true;
-}
-
-function drawVisualizer(){
-
-    if(!visualizerReady) return;
-
-    requestAnimationFrame(drawVisualizer);
-
-    analyser.getByteFrequencyData(dataArray);
-
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const barWidth = canvas.width / bufferLength;
-
-    for(let i=0;i<bufferLength;i++){
-
-        const value = dataArray[i];
-        const height = value / 255 * canvas.height;
-
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = "#6de8ff";
-        ctx.fillStyle = "#8cf7ff";
-
-        ctx.fillRect(
-            i * barWidth,
-            canvas.height - height,
-            barWidth - 2,
-            height
-        );
-    }
-}
-
-drawVisualizer();
-
-function unlockAudio(){
-    if(audioCtx.state === "suspended"){
-        audioCtx.resume();
-    }
-}
-
-        
 songs.forEach((song, index) => {
     const li = document.createElement("li");
 
@@ -148,25 +120,26 @@ songs.forEach((song, index) => {
         <small>${song.artist}</small>
     `;
 
-li.onclick = () => {
-    unlockAudio();
+    li.onclick = () => {
+        unlockAudio();
+        initAudioGraph();
 
-    currentSong = index;
+        currentSong = index;
 
-    audio.src = song.file;
-    audio.load();
+        audio.src = song.file;
+        audio.load();
 
-    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
+        nowPlaying.textContent = songs[currentSong].title;
 
-    audio.play();
+        audio.play();
+    };
 
-};
-    
     playlist.appendChild(li);
 });
 
 playBtn.onclick = () => {
     unlockAudio();
+    initAudioGraph();
     audio.play();
 };
 
@@ -176,32 +149,34 @@ pauseBtn.onclick = () => {
 
 nextBtn.onclick = () => {
     unlockAudio();
+    initAudioGraph();
 
     currentSong++;
 
-    if(currentSong >= songs.length)
+    if (currentSong >= songs.length)
         currentSong = 0;
 
     audio.src = songs[currentSong].file;
     audio.load();
 
-    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
+    nowPlaying.textContent = songs[currentSong].title;
 
     audio.play();
 };
 
 prevBtn.onclick = () => {
     unlockAudio();
+    initAudioGraph();
 
     currentSong--;
 
-    if(currentSong < 0)
-        currentSong = songs.length-1;
+    if (currentSong < 0)
+        currentSong = songs.length - 1;
 
     audio.src = songs[currentSong].file;
     audio.load();
 
-    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
+    nowPlaying.textContent = songs[currentSong].title;
 
     audio.play();
 };
