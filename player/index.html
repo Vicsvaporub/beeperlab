@@ -14,44 +14,46 @@
 <div class="player">
 
     <div class="titlebar">
-
-<span class="logo">
-    🛸 <span class="beeper">UFO Radio</span> v1.0
-</span>
+        <span class="logo">
+            🛸 <span class="beeper">UFO Radio</span> v1.0
+        </span>
 
         <div class="window-buttons">
             <button>─</button>
             <button>□</button>
             <button>✕</button>
         </div>
-
     </div>
 
-   <div class="display">
+    <div class="main">
 
-    <div id="nowPlaying">
-        <small>NOW PLAYING</small>
-        <h2>Select a track...</h2>
-    </div>
+        <div class="display">
 
-    <audio id="audio" preload="metadata"></audio>
+            <div id="nowPlaying">
+                <small>NOW PLAYING</small>
+                <h2>Select a track...</h2>
+            </div>
 
-    <div class="controls">
+            <audio id="audio" preload="metadata"></audio>
 
-        <button id="prevBtn">⏮</button>
-        <button id="playBtn">▶</button>
-        <button id="pauseBtn">⏸</button>
-        <button id="nextBtn">⏭</button>
+            <div class="controls">
 
-    </div>
+                <button id="prevBtn">⏮</button>
+                <button id="playBtn">▶</button>
+                <button id="pauseBtn">⏸</button>
+                <button id="nextBtn">⏭</button>
 
-</div>
+            </div>
 
-    <div class="playlist">
+        </div>
 
-        <h3>PLAYLIST</h3>
+        <div class="playlist">
 
-        <ul id="playlist"></ul>
+            <h3>PLAYLIST</h3>
+
+            <ul id="playlist"></ul>
+
+        </div>
 
     </div>
 
