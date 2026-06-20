@@ -64,21 +64,24 @@ function drawVisualizer() {
 
     const barWidth = canvas.width / bufferLength;
 
-    for (let i = 0; i < bufferLength; i++) {
-        const value = dataArray[i];
-        const height = (value / 255) * canvas.height;
+const step = Math.floor(bufferLength / 64); // fewer, nicer bars
 
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = "#6de8ff";
-        ctx.fillStyle = "#8cf7ff";
+for (let i = 0; i < 64; i++) {
+    const value = dataArray[i * step];
+    const height = (value / 255) * canvas.height;
 
-        ctx.fillRect(
-            i * barWidth,
-            canvas.height - height,
-            barWidth - 2,
-            height
-        );
-    }
+    const x = (i / 64) * canvas.width;
+
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "#6de8ff";
+    ctx.fillStyle = "#8cf7ff";
+
+    ctx.fillRect(
+        x,
+        canvas.height - height,
+        (canvas.width / 64) - 2,
+        height
+    );
 }
 
 drawVisualizer();
