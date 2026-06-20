@@ -22,16 +22,7 @@ body{
     align-items:center;
 }
 
-.titlebar{
-
-    font-family:Tahoma,Verdana,sans-serif;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-}
-
+/* PLAYER WRAPPER */
 .player{
     width:640px;
 
@@ -39,8 +30,8 @@ body{
 
     background: rgba(255,255,255,.25);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     border: 1px solid rgba(255,255,255,.45);
 
@@ -51,8 +42,11 @@ body{
 
     position:relative;
     overflow:hidden;
+
+    isolation:isolate;
 }
 
+/* glass layers behind UI */
 .player::before{
     content:"";
     position:absolute;
@@ -63,11 +57,13 @@ body{
     background:
         radial-gradient(
             circle at top,
-            rgba(140,200,255,.55),
+            rgba(140,200,255,.45),
             transparent 60%
         );
 
     pointer-events:none;
+
+    z-index:0;
 }
 
 .player::after{
@@ -83,17 +79,26 @@ body{
     background: linear-gradient(
         120deg,
         transparent,
-        rgba(255,255,255,.35),
+        rgba(255,255,255,.25),
         transparent
     );
 
     transform: rotate(-8deg);
 
     pointer-events:none;
+
+    z-index:0;
 }
 
-/*titlebar*/
+/* everything ABOVE glass */
+.titlebar,
+.display,
+.main{
+    position:relative;
+    z-index:1;
+}
 
+/* TITLEBAR */
 .titlebar{
     height:38px;
 
@@ -103,7 +108,9 @@ body{
 
     padding:0 10px;
 
-    font-family: Tahoma, sans-serif;
+    font-family:Tahoma,Verdana,sans-serif;
+    font-size:13px;
+    font-weight:bold;
 
     color:#0b2a3d;
 
@@ -117,20 +124,18 @@ body{
 
     text-shadow: 0 1px 0 rgba(255,255,255,.6);
 }
+
 .window-buttons{
     display:flex;
     gap:6px;
 }
 
 .window-buttons button{
-
     width:22px;
     height:22px;
 
     border:none;
-
     border-radius:50%;
-
     cursor:pointer;
 
     color:#0d4663;
@@ -148,139 +153,72 @@ body{
 }
 
 .window-buttons button:active{
-
     transform:translateY(1px);
-
 }
 
-/*display*/
-.display{
-
+/* MAIN LAYOUT */
+.main{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
     padding:18px;
+}
 
+/* DISPLAY */
+.display{
+    flex:1;
+    min-width:0;
 }
 
 #nowPlaying{
-
     font-family:Consolas,"Courier New",monospace;
 
     border-radius:10px;
-
     padding:14px;
-
     margin-bottom:18px;
 
-    background:
-        linear-gradient(
-            #f7ffff,
-            #d9ffff
-            
-        );
+    background: linear-gradient(#f7ffff,#d9ffff);
 
     border:1px solid #9adff7;
 
     box-shadow:
         inset 0 1px white,
         inset 0 -1px rgba(0,0,0,.08);
-
-}
-
-#playlist{
-
-    font-family:Tahoma,Verdana,sans-serif;
-
-}
-
-.controls button{
-
-    font-family:Tahoma,Verdana,sans-serif;
-
-    font-weight:bold;
-
 }
 
 #nowPlaying small{
-
     color:#4f8aa4;
     letter-spacing:2px;
-
 }
 
 #nowPlaying h2{
-
     margin:.4rem 0 0;
-
     color:#17526f;
-
 }
 
-/*playlist*/
-.playlist{
-
-    padding:0 18px 18px;
-
-}
-
-.playlist h3{
-
-    color:#2a6684;
-    margin-bottom:10px;
-
-}
-
-#playlist{
-
-    list-style:none;
-    padding:0;
-    margin:0;
-
-}
-
-#playlist li{
-    cursor:pointer;
-    padding:8px 10px;
-    border-radius:8px;
-}
-
-#playlist li:hover{
-    background:rgba(120,220,255,.25);
-}
-
-#playlist li:active{
-
-    transform:translateY(1px);
-
-}
-
-/*browser player*/
+/* CONTROLS */
 audio{
     display:none;
 }
 
 .controls{
-
     display:flex;
-
     justify-content:center;
-
     gap:16px;
-
     margin-top:18px;
-
 }
 
 .controls button{
-
     width:58px;
     height:58px;
 
     border:none;
-
     border-radius:50%;
-
     cursor:pointer;
 
     font-size:22px;
+    font-family:Tahoma,Verdana,sans-serif;
+    font-weight:bold;
 
     color:#17526f;
 
@@ -297,56 +235,31 @@ audio{
         0 3px 8px rgba(0,0,0,.25);
 
     transition:.12s;
-
 }
 
 .controls button:hover{
-
     transform:translateY(-2px);
-
     box-shadow:
         0 0 18px rgba(120,230,255,.7),
         inset 0 2px white;
-
 }
 
 .controls button:active{
-
     transform:translateY(2px);
-
     box-shadow:
         inset 0 3px 6px rgba(0,0,0,.2);
-
 }
 
-.logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-}
-
-.beeper{
-
-    font-family:"BeeperFont",cursive;
-
-    font-size:18px;
-
-    letter-spacing:.5px;
-
-}
-
-.main{
-    display:flex;
-    gap:16px;
-    align-items:flex-start;
-    padding:18px;
-}
-
+/* PLAYLIST */
 .playlist{
+    width:240px;
+    max-height:320px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    flex-shrink:0;
+
     border-radius:12px;
     padding:10px;
 
@@ -363,11 +276,34 @@ audio{
         0 2px 8px rgba(0,0,0,.15);
 }
 
-.display{
-    flex:1;
-    min-width:0;
+.playlist h3{
+    color:#2a6684;
+    margin-bottom:10px;
 }
 
+#playlist{
+    list-style:none;
+    padding:0;
+    margin:0;
+
+    font-family:Tahoma,Verdana,sans-serif;
+}
+
+#playlist li{
+    cursor:pointer;
+    padding:8px 10px;
+    border-radius:8px;
+}
+
+#playlist li:hover{
+    background:rgba(120,220,255,.25);
+}
+
+#playlist li:active{
+    transform:translateY(1px);
+}
+
+/* SCROLLBAR */
 .playlist::-webkit-scrollbar{
     width:8px;
 }
@@ -379,4 +315,17 @@ audio{
 
 .playlist::-webkit-scrollbar-track{
     background:rgba(255,255,255,.2);
+}
+
+/* LOGO */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.beeper{
+    font-family:"BeeperFont",cursive;
+    font-size:18px;
+    letter-spacing:.5px;
 }
