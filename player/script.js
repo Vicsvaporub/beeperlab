@@ -89,7 +89,7 @@ for (let i = 0; i < bars; i++) {
     );
 }
 
-drawVisualizer();
+//drawVisualizer();
 
 const songs = [
     {
