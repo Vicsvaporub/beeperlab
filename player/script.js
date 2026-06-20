@@ -1,3 +1,5 @@
+console.log("script started");
+
 const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const prevBtn = document.getElementById("prevBtn");
@@ -62,34 +64,31 @@ function drawVisualizer() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const barWidth = canvas.width / bufferLength;
+    if (!dataArray || !bufferLength) return;
 
-const step = Math.floor(bufferLength / 64); // fewer, nicer bars
+    const bars = 64;
+    const step = Math.floor(bufferLength / bars);
 
-if (!dataArray || !bufferLength) return;
+    for (let i = 0; i < bars; i++) {
+        const value = dataArray[i * step] || 0;
+        const height = (value / 255) * canvas.height;
 
-const bars = 64;
-const step = Math.floor(bufferLength / bars);
+        const x = (i / bars) * canvas.width;
 
-for (let i = 0; i < bars; i++) {
-    const value = dataArray[i * step] || 0;
-    const height = (value / 255) * canvas.height;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#6de8ff";
+        ctx.fillStyle = "#8cf7ff";
 
-    const x = (i / bars) * canvas.width;
-
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = "#6de8ff";
-    ctx.fillStyle = "#8cf7ff";
-
-    ctx.fillRect(
-        x,
-        canvas.height - height,
-        (canvas.width / bars) - 2,
-        height
-    );
+        ctx.fillRect(
+            x,
+            canvas.height - height,
+            (canvas.width / bars) - 2,
+            height
+        );
+    }
 }
 
-//drawVisualizer();
+drawVisualizer();
 
 const songs = [
     {
