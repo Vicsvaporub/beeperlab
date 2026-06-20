@@ -66,33 +66,28 @@ function drawVisualizer() {
 
     if (!dataArray || !bufferLength) return;
 
-const bars = 64;
-const chunkSize = Math.floor(bufferLength / bars);
+    const bars = 64;
+    const step = Math.floor(bufferLength / bars);
 
-for (let i = 0; i < bars; i++) {
-    let sum = 0;
+    for (let i = 0; i < bars; i++) {
+        const value = dataArray[i * step] || 0;
+        const height = (value / 255) * canvas.height;
 
-    for (let j = 0; j < chunkSize; j++) {
-        sum += dataArray[i * chunkSize + j] || 0;
+        const x = (i / bars) * canvas.width;
+
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#6de8ff";
+        ctx.fillStyle = "#8cf7ff";
+
+        ctx.fillRect(
+            x,
+            canvas.height - height,
+            (canvas.width / bars) - 2,
+            height
+        );
     }
-
-    const value = sum / chunkSize;
-    const height = (value / 255) * canvas.height;
-
-    const x = (i / bars) * canvas.width;
-
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = "#6de8ff";
-    ctx.fillStyle = "#8cf7ff";
-
-    ctx.fillRect(
-        x,
-        canvas.height - height,
-        (canvas.width / bars) - 2,
-        height
-    );
 }
-    
+
 drawVisualizer();
 
 const songs = [
