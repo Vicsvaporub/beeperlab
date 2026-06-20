@@ -38,8 +38,15 @@ songs.forEach((song) => {
 
 li.onclick = async () => {
     audio.pause();
-    audio.src = song.file;
-    audio.load();
+const nowPlaying = document.querySelector("#nowPlaying h2");
+
+audio.pause();
+audio.src = song.file;
+audio.load();
+
+nowPlaying.textContent = song.title;
+
+audio.play();
 
     try {
         await audio.play();
