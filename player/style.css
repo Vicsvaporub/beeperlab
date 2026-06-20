@@ -3,68 +3,232 @@
     src: url("../fonts/Beeperfont.woff2") format("woff2");
 }
 
-body {
-    margin: 0;
-    padding: 2rem;
-
-    font-family: "BeeperFont", sans-serif;
-
-    background: #01242e;
-    color: #f2f2f2;
-
-    display: flex;
-    justify-content: center;
+*{
+    box-sizing:border-box;
 }
 
-.player {
-    width: min(650px, 90vw);
+body{
+    margin:0;
+    padding:40px;
 
-    padding: 1.5rem;
+    font-family:"BeeperFont",sans-serif;
 
-    border-radius: 18px;
+    background:
+        radial-gradient(circle at top,#dffcff 0%,#91e6ff 35%,#3f98c6 70%,#0f3c57 100%);
+    min-height:100vh;
 
-    background: rgba(255,255,255,.08);
-    backdrop-filter: blur(10px);
-
-    border: 1px solid rgba(255,255,255,.15);
-
-    box-shadow: 0 10px 35px rgba(0,0,0,.3);
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-h1 {
-    margin: 0;
-    font-size: 2rem;
+.player{
+
+    width:640px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.95),
+            rgba(215,250,255,.90) 40%,
+            rgba(145,225,255,.85)
+        );
+
+    border:1px solid rgba(255,255,255,.95);
+
+    box-shadow:
+        0 0 35px rgba(180,240,255,.45),
+        0 12px 30px rgba(0,0,0,.35),
+        inset 0 2px rgba(255,255,255,.95),
+        inset 0 -2px rgba(0,0,0,.08);
+
+    overflow:hidden;
 }
 
-.subtitle {
-    margin-top: .3rem;
-    opacity: .7;
+/*titlebar*/
+
+.titlebar{
+
+    height:38px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 12px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #dffcff,
+            #84dcff 35%,
+            #3fb3e6
+        );
+
+    text-shadow:0 1px 2px rgba(0,0,0,.4);
+
+    border-bottom:1px solid rgba(255,255,255,.5);
 }
 
-#playlist {
-    list-style: none;
-    padding: 0;
-    margin: 2rem 0;
+.window-buttons{
+    display:flex;
+    gap:6px;
 }
 
-#playlist li {
-    padding: .8rem 1rem;
-    margin-bottom: .6rem;
+.window-buttons button{
 
-    border-radius: 12px;
+    width:22px;
+    height:22px;
 
-    cursor: pointer;
+    border:none;
 
-    transition: .2s;
+    border-radius:50%;
 
-    background: rgba(255,255,255,.05);
+    cursor:pointer;
+
+    color:#0d4663;
+
+    background:
+        linear-gradient(
+            white,
+            #ddffff,
+            #8fe8ff
+        );
+
+    box-shadow:
+        inset 0 1px white,
+        0 1px 2px rgba(0,0,0,.25);
 }
 
-#playlist li:hover {
-    background: rgba(255,255,255,.15);
-    transform: translateX(6px);
+.window-buttons button:active{
+
+    transform:translateY(1px);
+
 }
 
-audio {
-    width: 100%;
+/*display*/
+.display{
+
+    padding:18px;
+
+}
+
+#nowPlaying{
+
+    border-radius:10px;
+
+    padding:14px;
+
+    margin-bottom:18px;
+
+    background:
+        linear-gradient(
+            #f7ffff,
+            #d9ffff
+        );
+
+    border:1px solid #9adff7;
+
+    box-shadow:
+        inset 0 1px white,
+        inset 0 -1px rgba(0,0,0,.08);
+
+}
+
+#nowPlaying small{
+
+    color:#4f8aa4;
+    letter-spacing:2px;
+
+}
+
+#nowPlaying h2{
+
+    margin:.4rem 0 0;
+
+    color:#17526f;
+
+}
+
+/*playlist*/
+.playlist{
+
+    padding:0 18px 18px;
+
+}
+
+.playlist h3{
+
+    color:#2a6684;
+    margin-bottom:10px;
+
+}
+
+#playlist{
+
+    list-style:none;
+    padding:0;
+    margin:0;
+
+}
+
+#playlist li{
+
+    margin-bottom:8px;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:#17526f;
+
+    background:
+        linear-gradient(
+            white,
+            rgba(215,250,255,.95)
+        );
+
+    border:1px solid rgba(255,255,255,.95);
+
+    box-shadow:
+        inset 0 1px white,
+        0 1px 3px rgba(0,0,0,.12);
+
+    transition:.18s;
+
+}
+
+#playlist li:hover{
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 0 12px rgba(120,220,255,.5),
+        inset 0 1px white;
+
+}
+
+#playlist li:active{
+
+    transform:translateY(1px);
+
+}
+
+/*browser player*/
+audio{
+
+    width:100%;
+
+    margin-top:12px;
+
+    border-radius:999px;
+
+    opacity:.96;
+
 }
