@@ -108,7 +108,7 @@ li.onclick = () => {
     audio.src = song.file;
     audio.load();
 
-    nowPlaying.textContent = song.title;
+    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
 
     audio.play();
 
@@ -137,10 +137,9 @@ nextBtn.onclick = () => {
     audio.src = songs[currentSong].file;
     audio.load();
 
-    nowPlaying.textContent = songs[currentSong].title;
+    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
 
     audio.play();
-
 };
 
 prevBtn.onclick = () => {
@@ -154,8 +153,7 @@ prevBtn.onclick = () => {
     audio.src = songs[currentSong].file;
     audio.load();
 
-    nowPlaying.textContent = songs[currentSong].title;
+    document.querySelector("#nowPlaying h2").textContent = songs[currentSong].title;
 
     audio.play();
-
 };
