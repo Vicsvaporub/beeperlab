@@ -84,13 +84,6 @@ body{
     z-index:0;
 }
 
-    transform: rotate(-8deg);
-
-    pointer-events:none;
-
-    z-index:0;
-}
-
 /* everything ABOVE glass */
 .titlebar,
 .main,
