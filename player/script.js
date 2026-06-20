@@ -5,7 +5,12 @@ const nextBtn = document.getElementById("nextBtn");
 const nowPlaying = document.querySelector("#nowPlaying h2");
 
 const canvas = document.getElementById("visualizer");
-const ctx = canvas.getContext("2d");
+
+let ctx = null;
+
+if(canvas){
+    ctx = canvas.getContext("2d");
+}
 
 let currentSong = 0;
 
@@ -53,6 +58,49 @@ const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
 function drawVisualizer(){
+
+    requestAnimationFrame(drawVisualizer);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const barWidth = canvas.width / bufferLength;
+
+    for(let i=0;i<bufferLength;i++){
+
+        const value = dataArray[i];
+        const height = value / 255 * canvas.height;
+
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#6de8ff";
+        ctx.fillStyle = "#8cf7ff";
+
+        ctx.fillRect(
+            i * barWidth,
+            canvas.height - height,
+            barWidth - 2,
+            height
+        );
+    }
+}
+
+const canvas = document.getElementById("visualizer");
+
+let ctx = null;
+let visualizerReady = false;
+
+if(canvas){
+    ctx = canvas.getContext("2d");
+    visualizerReady = true;
+}
+
+function drawVisualizer(){
+
+    if(!visualizerReady) return;
 
     requestAnimationFrame(drawVisualizer);
 
