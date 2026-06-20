@@ -342,6 +342,7 @@ audio{
 .main{
     display:flex;
     gap:16px;
+    align-items:flex-start;
     padding:18px;
 }
 
@@ -364,4 +365,18 @@ audio{
 
 .display{
     flex:1;
+    min-width:0;
+}
+
+.playlist::-webkit-scrollbar{
+    width:8px;
+}
+
+.playlist::-webkit-scrollbar-thumb{
+    background:rgba(120,200,255,.6);
+    border-radius:10px;
+}
+
+.playlist::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.2);
 }
