@@ -5,29 +5,19 @@ const songs = [
         file: "../music/A L E X - The Burn Marks on My Epiano Wont Go Away.mp3"
     },
     {
-        title: "Space Song",
-        artist: "Beach House",
-        file: "../music/Beach House - Space Song.mp3"
+        title: "CLUB SANDWICH",
+        artist: "Joey Valence & Brae",
+        file: "../music/CLUB SANDWICH.mp3"
     },
     {
-        title: "Hollow Log",
-        artist: "Beck",
-        file: "../music/Beck - Hollow Log.mp3"
+        title: "DANCE NOW",
+        artist: "Joey Valence & Brae",
+        file: "../music/DANCE NOW.mp3"
     },
     {
-        title: "Recuerdos De Ypacaraí",
-        artist: "Caetano Veloso",
-        file: "../music/Caetano Veloso - Recuerdos De Ypacarai.mp3"
-    },
-    {
-        title: "Tonada De Luna Llena",
-        artist: "Caetano Veloso",
-        file: "../music/Caetano Veloso - Tonada De Luna Llena.mp3"
-    },
-    {
-        title: "Duvet",
-        artist: "bôa",
-        file: "../music/bôa - Duvet.mp3"
+        title: "DELINQUENT (TEEN TITAN)",
+        artist: "Joey Valence & Brae",
+        file: "../music/DELINQUENT (TEEN TITAN).mp3"
     }
 ];
 
