@@ -42,10 +42,12 @@ songs.forEach((song) => {
         <small>${song.artist}</small>
     `;
 
-    li.onclick = () => {
-        audio.src = song.file;
-        audio.play();
-    };
+li.onclick = () => {
+    audio.pause();
+    audio.src = song.file;
+    audio.load();   // <- important
+    audio.play();
+};
 
     playlist.appendChild(li);
 });
